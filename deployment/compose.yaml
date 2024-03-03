@@ -1,0 +1,21 @@
+services:
+  dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+  auth-svc:
+    image: auth-svc:${AUTH_VERSION}
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./deployment/application.yaml:/app/application.yaml
+    depends_on:
+      - dynamodb-local
+    ports:
+      - "8080:8080"

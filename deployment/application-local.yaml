@@ -1,0 +1,10 @@
+http_port: 8080
+
+env: "dev"
+
+dynamodb:
+  table: "User"
+  region: "us-east-1"
+  host: "localhost"
+
+jwt_secret_key: "./secret"
